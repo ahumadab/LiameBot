@@ -40,4 +40,15 @@ bot.on('message', (message)=> {
 	}
 })
 
+bot.on('messageUpdate', (oldMessage, newMessage) => {
+  try {
+		for (const [script] of bot.scripts) {
+      bot.scripts.get(script).execute(newMessage);
+    }
+	} catch (error) {
+    console.error(error);
+    message.reply("Une erreur s'est produite pendant l'execution du script.");
+	}
+})
+
 bot.login(process.env.ROTCHBOT_TOKEN);

@@ -8,15 +8,12 @@ module.exports = {
       const googleApiKey = process.env.GOGOLE_API_KEY; // Need to be updated
       const idASMinotoR = "UCB8il9i9Bl9mxEaCaClFEXQ"; // Id public de ce gros shlag
 
-      if (message.content.includes("https://youtu.be") ||
-          message.content.includes("https://www.youtube")) {
+      if (message.content.includes("youtu")) {
         const position = message.content.indexOf("https://youtu.be") !== -1? message.content.indexOf("https://youtu.be"): message.content.indexOf("https://www.youtube");
-        const urlYoutubeWithRest = message.content.slice(position);
-        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        const match = urlYoutubeWithRest.match(regExp);
-        if (match && match[7].length === 11) {
-          const idYoutubeWithRest = match[7];
-          const idYoutube = idYoutubeWithRest.slice(0, 11);
+        const regExp = /^.*(?:http:|https:)*?\/\/(?:www\.|)(?:youtube\.com|m\.youtube\.com|youtu\.|youtube-nocookie\.com).*(?:v=|v%3D|v\/|(?:a|p)\/(?:a|u)\/\d.*\/|watch\?|vi(?:=|\/)|\/embed\/|oembed\?|be\/|e\/)([^&?%#\/\n]*).*/;
+        const match = message.content.match(regExp);
+        if (match && match[1].length === 11) {
+          const idYoutube = match[1]
 
           axios
             .get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${idYoutube}&key=${googleApiKey}`)
