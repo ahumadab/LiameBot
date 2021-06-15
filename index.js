@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const bot = Discord.Client()
+const bot = new Discord.Client()
 require('dotenv').config()
 
 bot.on('ready', () => {
